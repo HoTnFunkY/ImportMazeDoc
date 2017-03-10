@@ -19,11 +19,10 @@ namespace ImportMazeDoc
             string resourcetext1 = Resource1.MazeTest1;
             Console.Out.NewLine = "\r\n\r\n";
             Console.WriteLine("This is the text file read in and The string printed \n{0}", Content);
-            Console.WriteLine("same file loaded using resources \n\r{0}", resourcetext1);*/
+            Console.WriteLine("same file loaded using resources \n\r{0}", resourcetext1);
 
             string[] Lines = File.ReadAllLines("MazeTest1.txt");
-            char[] Lines2 = 
-            Console.Out.NewLine = "\r\n\r\n";
+            char[] Lines2;
 
             foreach (string line in Lines)
             {
