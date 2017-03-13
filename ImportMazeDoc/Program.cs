@@ -23,10 +23,16 @@ namespace ImportMazeDoc
             Console.WriteLine("Output of new 2D array Maze!");
             Console.WriteLine();
 
+
             string[] Lines = File.ReadAllLines("maze.txt");
 
-            int width = Lines[1].Length;
-            int height = Lines.Length - 1;
+            string sizeOfArray = Lines[0];
+
+            string[] myMaze = sizeOfArray.Split('x');
+
+
+            int width = int.Parse(myMaze[0]);
+            int height = int.Parse(myMaze[1]);
 
             string[,] mazeArr = new string[height, width];
 
