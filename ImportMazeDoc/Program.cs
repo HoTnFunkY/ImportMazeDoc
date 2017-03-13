@@ -16,14 +16,14 @@ namespace ImportMazeDoc
             Console.WriteLine("The current directory is {0}", path);// Det viser metodekladet, det gemmes og skrives ud.
 
             string Content = File.ReadAllText("maze.txt");
-          //  Console.Out.NewLine = "\r\n\r\n";
+          //Console.Out.NewLine = "\r\n\r\n";
             Console.WriteLine("This is the text file read in and The string printed \n{0}", Content);
 
             Console.WriteLine();
             Console.WriteLine("Output of new 2D array Maze!");
             Console.WriteLine();
 
-            string[] Lines = File.ReadAllLines("maze.txt");
+            string[] Lines = File.ReadAllLines("maze.txt");                  
 
             int width = Lines[1].Length;
             int height = Lines.Length - 1;
