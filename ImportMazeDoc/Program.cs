@@ -16,7 +16,7 @@ namespace ImportMazeDoc
             Console.WriteLine("The current directory is {0}", path);// Det viser metodekladet, det gemmes og skrives ud.
 
             string Content = File.ReadAllText("maze.txt");
-          //  Console.Out.NewLine = "\r\n\r\n";
+          //Console.Out.NewLine = "\r\n\r\n";
             Console.WriteLine("This is the text file read in and The string printed \n{0}", Content);
 
             Console.WriteLine();
@@ -54,8 +54,33 @@ namespace ImportMazeDoc
                 Console.WriteLine();
             }
 
-            
+            ICoordinate startCoordinate = null;
+            ICoordinate endCoordinate = null;
+            for (int i = 0; i < height; i++)
+            {
+                if (mazeArr[i,0].ToString().Equals("B"))
+                {
+                    startCoordinate = new Coordinate();
+                    startCoordinate.x = 0;
+                    startCoordinate.y = i;
+                }
+            }
+            Console.WriteLine($"StartCoordinates: x:{startCoordinate.x} y:{startCoordinate.y}");
 
+            for (int i = 0; i < width; i++)
+            {
+                if (mazeArr[i, width - 1].ToString().Equals("E"))
+                {
+                    endCoordinate = new Coordinate();
+                    endCoordinate.x = width - 1;
+                    endCoordinate.y = i;
+                }
+            }
+            Console.WriteLine($"EndCoordinates: x:{endCoordinate.x} y:{endCoordinate.y}");
+
+            Stack<IMazeNode> nodes = new Stack<IMazeNode>();
+
+          //  nodes.Push(new MazeNode();
 
         }
     }
