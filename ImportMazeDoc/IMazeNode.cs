@@ -8,7 +8,10 @@ namespace ImportMazeDoc
 {
     public interface IMazeNode
     {
+        ICollection<IMazeEdge> Edges { get; }
         ICoordinate Coordinate { get; }
         bool Visited { get; set; }
+
+        void AddEdge(IMazeEdge newEdge);
     }
 }

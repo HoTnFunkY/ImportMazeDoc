@@ -16,7 +16,7 @@ namespace ImportMazeDoc
             Console.WriteLine("The current directory is {0}", path);// Det viser metodekladet, det gemmes og skrives ud.
 
             string Content = File.ReadAllText("maze.txt");
-          //Console.Out.NewLine = "\r\n\r\n";
+            //Console.Out.NewLine = "\r\n\r\n";
             Console.WriteLine("This is the text file read in and The string printed \n{0}", Content);
 
             Console.WriteLine();
@@ -46,7 +46,7 @@ namespace ImportMazeDoc
 
             for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < width ; j++)
+                for (int j = 0; j < width; j++)
                 {
                     Console.Write(mazeArr[i, j]);
                 }
@@ -58,7 +58,7 @@ namespace ImportMazeDoc
             ICoordinate endCoordinate = null;
             for (int i = 0; i < height; i++)
             {
-                if (mazeArr[i,0].ToString().Equals("B"))
+                if (mazeArr[i, 0].ToString().Equals("B"))
                 {
                     startCoordinate = new Coordinate();
                     startCoordinate.x = 0;
@@ -79,9 +79,81 @@ namespace ImportMazeDoc
             Console.WriteLine($"EndCoordinates: x:{endCoordinate.x} y:{endCoordinate.y}");
 
             Stack<IMazeNode> nodes = new Stack<IMazeNode>();
+            //Add Start Node
+            nodes.Push(new MazeNode(startCoordinate.x, startCoordinate.y));
+            //Find All Nodes
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (mazeArr[i, j].ToString().Equals(" "))
+                    {
+                        nodes.Push(new MazeNode(j, i));
+                    }
+                }
+            }
+            //Add End Node
+            nodes.Push(new MazeNode(endCoordinate.x, endCoordinate.y));
 
-          //  nodes.Push(new MazeNode();
+            FindEdges(nodes, mazeArr);
 
+        }
+
+        public static void FindEdges(IEnumerable<IMazeNode> nodes, string[,] mazeArr)
+        {
+            foreach (var node in nodes)
+            {
+                var above = node.Coordinate.y - 1;
+                var below = node.Coordinate.y + 1;
+                var left = node.Coordinate.x - 1;
+                var right = node.Coordinate.x + 1;
+
+                if (mazeArr[node.Coordinate.x, above].ToString() == " " ||
+                    mazeArr[node.Coordinate.x, above].ToString() == "B" ||
+                    mazeArr[node.Coordinate.x, above].ToString() == "E")
+                {
+                    node.AddEdge(new MazeEdge
+                    {
+                        Origin = node.Coordinate,
+                        Destination = new Coordinate
+                        { x = node.Coordinate.x, y = above }
+                    });
+                }
+                else if (mazeArr[node.Coordinate.x, below].ToString() == " " ||
+                         mazeArr[node.Coordinate.x, below].ToString() == "B" ||
+                         mazeArr[node.Coordinate.x, below].ToString() == "E")
+                {
+                    node.AddEdge(new MazeEdge
+                    {
+                        Origin = node.Coordinate,
+                        Destination = new Coordinate
+                        { x = node.Coordinate.x, y = below }
+                    });
+                }
+                else if (mazeArr[left, node.Coordinate.y].ToString() == " " ||
+                         mazeArr[left, node.Coordinate.y].ToString() == "B" ||
+                         mazeArr[left, node.Coordinate.y].ToString() == "E")
+                {
+                    node.AddEdge(new MazeEdge
+                    {
+                        Origin = node.Coordinate,
+                        Destination = new Coordinate
+                        { x = left, y = node.Coordinate.y }
+                    });
+                }
+                else if (mazeArr[right, node.Coordinate.y].ToString() == " " ||
+                         mazeArr[right, node.Coordinate.y].ToString() == "B" ||
+                         mazeArr[right, node.Coordinate.y].ToString() == "E")
+                {
+                    node.AddEdge(new MazeEdge
+                    {
+                        Origin = node.Coordinate,
+                        Destination = new Coordinate
+                        { x = right, y = node.Coordinate.y }
+                    });
+                }
+
+            }
         }
     }
 

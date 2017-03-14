@@ -10,6 +10,8 @@ namespace ImportMazeDoc
     {
         public ICoordinate Coordinate { get; private set; }
 
+        public ICollection<IMazeEdge> Edges { get;}
+
         public bool Visited { get; set; }
        /// <summary>
        /// Inititalizes a node with a coordinate set
@@ -18,8 +20,16 @@ namespace ImportMazeDoc
        /// <param name="y">y Coordinate</param>
         public MazeNode(int x, int y)
         {
+            Coordinate = new Coordinate();
             Coordinate.x = x;
             Coordinate.y = y;
+
+            Edges = new LinkedList<IMazeEdge>();         
+        }
+
+        public void AddEdge(IMazeEdge newEdge)
+        {
+            Edges.Add(newEdge);
         }
     }
 }

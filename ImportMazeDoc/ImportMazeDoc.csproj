@@ -45,7 +45,9 @@
   <ItemGroup>
     <Compile Include="Coordinate.cs" />
     <Compile Include="ICoordinate.cs" />
+    <Compile Include="IMazeEdge.cs" />
     <Compile Include="IMazeNode.cs" />
+    <Compile Include="MazeEdge.cs" />
     <Compile Include="MazeNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
