@@ -98,8 +98,13 @@ namespace ImportMazeDoc
             FindEdges(nodes, mazeArr, width, height);
 
             var node = nodes.FirstOrDefault(n => n.Coordinate.x == 11 && n.Coordinate.y == 11);
+
+            for (int i = nodes.Count; i > 0; i--)
+            {
+                nodes.Pop();               
+            }          
            
-            Console.ReadKey();
+           
 
         }
 
