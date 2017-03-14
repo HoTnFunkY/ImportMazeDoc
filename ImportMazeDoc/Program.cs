@@ -95,11 +95,16 @@ namespace ImportMazeDoc
             //Add End Node
             nodes.Push(new MazeNode(endCoordinate.x, endCoordinate.y));
 
-            FindEdges(nodes, mazeArr);
+            FindEdges(nodes, mazeArr, width, height);
+
+            var node = nodes.FirstOrDefault(n => n.Coordinate.x == 11 && n.Coordinate.y == 11);
+           
+            Console.ReadKey();
 
         }
 
-        public static void FindEdges(IEnumerable<IMazeNode> nodes, string[,] mazeArr)
+        public static void FindEdges(IEnumerable<IMazeNode> nodes, string[,] mazeArr,
+                                    int width, int height)
         {
             foreach (var node in nodes)
             {
@@ -108,49 +113,92 @@ namespace ImportMazeDoc
                 var left = node.Coordinate.x - 1;
                 var right = node.Coordinate.x + 1;
 
-                if (mazeArr[node.Coordinate.x, above].ToString() == " " ||
-                    mazeArr[node.Coordinate.x, above].ToString() == "B" ||
-                    mazeArr[node.Coordinate.x, above].ToString() == "E")
+                if (above == -1)    //if at End - Node
                 {
                     node.AddEdge(new MazeEdge
                     {
                         Origin = node.Coordinate,
-                        Destination = new Coordinate
-                        { x = node.Coordinate.x, y = above }
+                        Destination = node.Coordinate
+                    });
+                }else if (above != -1 && above != height)
+                {
+                    if (mazeArr[node.Coordinate.x, above].ToString() == " " ||
+                               mazeArr[node.Coordinate.x, above].ToString() == "B" ||
+                               mazeArr[node.Coordinate.x, above].ToString() == "E")
+                    {
+                        node.AddEdge(new MazeEdge
+                        {
+
+                            Origin = node.Coordinate,
+                            Destination = new Coordinate
+                            { x = node.Coordinate.x, y = above }
+                        });
+                    } 
+                }
+                if (below == height)    //if at End - Node
+                {
+                    node.AddEdge(new MazeEdge
+                    {
+                        Origin = node.Coordinate,
+                        Destination = node.Coordinate
+                    });
+                }else if (below != -1 && below != height)
+                {
+                    if (mazeArr[node.Coordinate.x, below].ToString() == " " ||
+                                     mazeArr[node.Coordinate.x, below].ToString() == "B" ||
+                                     mazeArr[node.Coordinate.x, below].ToString() == "E")
+                    {
+                        node.AddEdge(new MazeEdge
+                        {
+                            Origin = node.Coordinate,
+                            Destination = new Coordinate
+                            { x = node.Coordinate.x, y = below }
+                        });
+                    } 
+                }
+                if (left == -1) //if at End - Node
+                {
+                    node.AddEdge(new MazeEdge
+                    {
+                        Origin = node.Coordinate,
+                        Destination = node.Coordinate
+                    });
+                }else if (left != -1 && left != width)
+                {
+                    if (mazeArr[left, node.Coordinate.y].ToString() == " " ||
+                                     mazeArr[left, node.Coordinate.y].ToString() == "B" ||
+                                     mazeArr[left, node.Coordinate.y].ToString() == "E")
+                    {
+                        node.AddEdge(new MazeEdge
+                        {
+                            Origin = node.Coordinate,
+                            Destination = new Coordinate
+                            { x = left, y = node.Coordinate.y }
+                        });
+                    } 
+                }
+               
+                if (right == width)  //if at End - Node
+                {
+                    node.AddEdge(new MazeEdge
+                    {
+                        Origin = node.Coordinate,
+                        Destination = node.Coordinate
                     });
                 }
-                else if (mazeArr[node.Coordinate.x, below].ToString() == " " ||
-                         mazeArr[node.Coordinate.x, below].ToString() == "B" ||
-                         mazeArr[node.Coordinate.x, below].ToString() == "E")
+                else if (right != -1 && right != width)
                 {
-                    node.AddEdge(new MazeEdge
+                    if (mazeArr[right, node.Coordinate.y].ToString() == " " ||
+                                     mazeArr[right, node.Coordinate.y].ToString() == "B" ||
+                                     mazeArr[right, node.Coordinate.y].ToString() == "E")
                     {
-                        Origin = node.Coordinate,
-                        Destination = new Coordinate
-                        { x = node.Coordinate.x, y = below }
-                    });
-                }
-                else if (mazeArr[left, node.Coordinate.y].ToString() == " " ||
-                         mazeArr[left, node.Coordinate.y].ToString() == "B" ||
-                         mazeArr[left, node.Coordinate.y].ToString() == "E")
-                {
-                    node.AddEdge(new MazeEdge
-                    {
-                        Origin = node.Coordinate,
-                        Destination = new Coordinate
-                        { x = left, y = node.Coordinate.y }
-                    });
-                }
-                else if (mazeArr[right, node.Coordinate.y].ToString() == " " ||
-                         mazeArr[right, node.Coordinate.y].ToString() == "B" ||
-                         mazeArr[right, node.Coordinate.y].ToString() == "E")
-                {
-                    node.AddEdge(new MazeEdge
-                    {
-                        Origin = node.Coordinate,
-                        Destination = new Coordinate
-                        { x = right, y = node.Coordinate.y }
-                    });
+                        node.AddEdge(new MazeEdge
+                        {
+                            Origin = node.Coordinate,
+                            Destination = new Coordinate
+                            { x = right, y = node.Coordinate.y }
+                        });
+                    }
                 }
 
             }
