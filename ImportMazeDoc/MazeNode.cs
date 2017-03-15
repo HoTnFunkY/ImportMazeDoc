@@ -10,7 +10,7 @@ namespace ImportMazeDoc
     {
         public ICoordinate Coordinate { get; private set; }
 
-        public bool Visited { get; set; }
+       public bool Visited { get; set; }
        /// <summary>
        /// Inititalizes a node with a coordinate set
        /// </summary>
@@ -18,8 +18,10 @@ namespace ImportMazeDoc
        /// <param name="y">y Coordinate</param>
         public MazeNode(int x, int y)
         {
+            Coordinate = new Coordinate();
             Coordinate.x = x;
-            Coordinate.y = y;
+            Coordinate.y = y;                
         }
+
     }
 }

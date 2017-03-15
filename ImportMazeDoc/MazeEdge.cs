@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace ImportMazeDoc
 {
-    public interface IMazeNode
+    public class MazeEdge : IMazeEdge
     {
-        ICoordinate Coordinate { get; }
-        bool Visited { get; set; }
-              
+        public ICoordinate Destination { get; set; }
+        public ICoordinate Origin { get; set; }
     }
 }
