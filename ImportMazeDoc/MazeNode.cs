@@ -10,9 +10,7 @@ namespace ImportMazeDoc
     {
         public ICoordinate Coordinate { get; private set; }
 
-        public ICollection<IMazeEdge> Edges { get;}
-
-        public bool Visited { get; set; }
+       public bool Visited { get; set; }
        /// <summary>
        /// Inititalizes a node with a coordinate set
        /// </summary>
@@ -22,14 +20,8 @@ namespace ImportMazeDoc
         {
             Coordinate = new Coordinate();
             Coordinate.x = x;
-            Coordinate.y = y;
-
-            Edges = new LinkedList<IMazeEdge>();         
+            Coordinate.y = y;                
         }
 
-        public void AddEdge(IMazeEdge newEdge)
-        {
-            Edges.Add(newEdge);
-        }
     }
 }

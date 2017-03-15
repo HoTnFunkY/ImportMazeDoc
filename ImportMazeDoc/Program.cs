@@ -13,7 +13,7 @@ namespace ImportMazeDoc
         static void Main(string[] args)
         {
             string path = Directory.GetCurrentDirectory();// Efter at man har lavet sin .txt Skal man placere den i current working directory.
-            Console.WriteLine("The current directory is {0}", path);// Det viser metodekladet, det gemmes og skrives ud.
+            Console.WriteLine("The current directory is {0}", path);// Det viser metodekaldet, det gemmes og skrives ud.
 
             string Content = File.ReadAllText("maze.txt");
             //Console.Out.NewLine = "\r\n\r\n";
@@ -44,16 +44,6 @@ namespace ImportMazeDoc
                 }
             }
 
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    Console.Write(mazeArr[i, j]);
-                }
-
-                Console.WriteLine();
-            }
-
             ICoordinate startCoordinate = null;
             ICoordinate endCoordinate = null;
             for (int i = 0; i < height; i++)
@@ -76,137 +66,131 @@ namespace ImportMazeDoc
                     endCoordinate.y = i;
                 }
             }
-            Console.WriteLine($"EndCoordinates: x:{endCoordinate.x} y:{endCoordinate.y}");
 
             Stack<IMazeNode> nodes = new Stack<IMazeNode>();
-            //Add Start Node
+            //Add Root Node
             nodes.Push(new MazeNode(startCoordinate.x, startCoordinate.y));
-            //Find All Nodes
+
+            while (nodes.Count > 0)
+            {
+                IMazeNode next = nodes.Peek();
+                IMazeNode neighbour = UnvisitedNeigbours(next, mazeArr, width, height, nodes.Count);
+
+                if (neighbour != null && neighbour.Visited == false)
+                {
+                    if (IsExit(neighbour, width, height, nodes.Count))
+                    {
+                        Console.WriteLine("Hurra!");
+                    }
+
+                    mazeArr[neighbour.Coordinate.y, neighbour.Coordinate.x] = ".";
+                    neighbour.Visited = true;
+                    nodes.Push(neighbour);
+                }
+                else
+                {
+                    nodes.Pop();
+                }
+               
+            }
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    if (mazeArr[i, j].ToString().Equals(" "))
-                    {
-                        nodes.Push(new MazeNode(j, i));
-                    }
+                    Console.Write(mazeArr[i, j]);
                 }
+
+                Console.WriteLine();
             }
-            //Add End Node
-            nodes.Push(new MazeNode(endCoordinate.x, endCoordinate.y));
 
-            FindEdges(nodes, mazeArr, width, height);
 
-            var node = nodes.FirstOrDefault(n => n.Coordinate.x == 11 && n.Coordinate.y == 11);
-
-            for (int i = nodes.Count; i > 0; i--)
-            {
-                nodes.Pop();               
-            }          
-           
-           
 
         }
 
-        public static void FindEdges(IEnumerable<IMazeNode> nodes, string[,] mazeArr,
-                                    int width, int height)
+        private static bool IsExit(IMazeNode node, int width, int height, int count)
         {
-            foreach (var node in nodes)
-            {
-                var above = node.Coordinate.y - 1;
-                var below = node.Coordinate.y + 1;
-                var left = node.Coordinate.x - 1;
-                var right = node.Coordinate.x + 1;
+            var above = node.Coordinate.y - 1;
+            var below = node.Coordinate.y + 1;
+            var left = node.Coordinate.x - 1;
+            var right = node.Coordinate.x + 1;
 
+            if (count > 1)
+            {
                 if (above == -1)    //if at End - Node
                 {
-                    node.AddEdge(new MazeEdge
-                    {
-                        Origin = node.Coordinate,
-                        Destination = node.Coordinate
-                    });
-                }else if (above != -1 && above != height)
-                {
-                    if (mazeArr[node.Coordinate.x, above].ToString() == " " ||
-                               mazeArr[node.Coordinate.x, above].ToString() == "B" ||
-                               mazeArr[node.Coordinate.x, above].ToString() == "E")
-                    {
-                        node.AddEdge(new MazeEdge
-                        {
-
-                            Origin = node.Coordinate,
-                            Destination = new Coordinate
-                            { x = node.Coordinate.x, y = above }
-                        });
-                    } 
+                    return true;
                 }
-                if (below == height)    //if at End - Node
+                else if (below == height)
                 {
-                    node.AddEdge(new MazeEdge
-                    {
-                        Origin = node.Coordinate,
-                        Destination = node.Coordinate
-                    });
-                }else if (below != -1 && below != height)
-                {
-                    if (mazeArr[node.Coordinate.x, below].ToString() == " " ||
-                                     mazeArr[node.Coordinate.x, below].ToString() == "B" ||
-                                     mazeArr[node.Coordinate.x, below].ToString() == "E")
-                    {
-                        node.AddEdge(new MazeEdge
-                        {
-                            Origin = node.Coordinate,
-                            Destination = new Coordinate
-                            { x = node.Coordinate.x, y = below }
-                        });
-                    } 
+                    return true;
                 }
-                if (left == -1) //if at End - Node
+                else if (left == -1)
                 {
-                    node.AddEdge(new MazeEdge
-                    {
-                        Origin = node.Coordinate,
-                        Destination = node.Coordinate
-                    });
-                }else if (left != -1 && left != width)
-                {
-                    if (mazeArr[left, node.Coordinate.y].ToString() == " " ||
-                                     mazeArr[left, node.Coordinate.y].ToString() == "B" ||
-                                     mazeArr[left, node.Coordinate.y].ToString() == "E")
-                    {
-                        node.AddEdge(new MazeEdge
-                        {
-                            Origin = node.Coordinate,
-                            Destination = new Coordinate
-                            { x = left, y = node.Coordinate.y }
-                        });
-                    } 
+                    return true;
                 }
-               
-                if (right == width)  //if at End - Node
+                else if (right == width)
                 {
-                    node.AddEdge(new MazeEdge
-                    {
-                        Origin = node.Coordinate,
-                        Destination = node.Coordinate
-                    });
-                }
-                else if (right != -1 && right != width)
-                {
-                    if (mazeArr[right, node.Coordinate.y].ToString() == " " ||
-                                     mazeArr[right, node.Coordinate.y].ToString() == "B" ||
-                                     mazeArr[right, node.Coordinate.y].ToString() == "E")
-                    {
-                        node.AddEdge(new MazeEdge
-                        {
-                            Origin = node.Coordinate,
-                            Destination = new Coordinate
-                            { x = right, y = node.Coordinate.y }
-                        });
-                    }
-                }
-
+                    return true;
+                } 
             }
+
+            return false;
+        }
+
+        public static IMazeNode UnvisitedNeigbours(IMazeNode node, string[,] mazeArr,
+                                    int width, int height, int count)
+        {
+
+            var above = node.Coordinate.y - 1;
+            var below = node.Coordinate.y + 1;
+            var left = node.Coordinate.x - 1;
+            var right = node.Coordinate.x + 1;
+
+            if (above != -1 && above != height)
+            {
+                if (mazeArr[above, node.Coordinate.x].ToString() == " ") //||
+                    //mazeArr[node.Coordinate.x, above].ToString() == "B" ||
+                  //  mazeArr[above, node.Coordinate.x].ToString() == "E")
+                {
+                //    mazeArr[above, node.Coordinate.x] = ".";
+                    return new MazeNode(node.Coordinate.x, above);
+                }
+            }
+
+            if (below != -1 && below != height)
+            {
+                if (mazeArr[below, node.Coordinate.x].ToString() == " ") //||
+                   // mazeArr[node.Coordinate.x, below].ToString() == "B" ||
+                 //   mazeArr[below, node.Coordinate.x].ToString() == "E")
+                {
+              //      mazeArr[below, node.Coordinate.x] = ".";
+                    return new MazeNode(node.Coordinate.x, below);
+                }
+            }
+
+            if (left != -1 && left != width)
+            {
+                if (mazeArr[node.Coordinate.y, left].ToString() == " ") //||
+                  //  mazeArr[left, node.Coordinate.y].ToString() == "B" ||
+                   // mazeArr[node.Coordinate.y, left].ToString() == "E")
+                {
+               //     mazeArr[node.Coordinate.y, left] = ".";
+                    return new MazeNode(left, node.Coordinate.y);
+                }
+            }
+
+            if (right != -1 && right != width)
+            {
+                if (mazeArr[node.Coordinate.y, right].ToString() == " ") //||
+                   // mazeArr[right, node.Coordinate.y].ToString() == "B" ||
+                  //  mazeArr[node.Coordinate.y, right].ToString() == "E")
+                {
+                 //   mazeArr[node.Coordinate.y, right] = ".";
+                    return new MazeNode(right, node.Coordinate.y);
+                }
+            }
+            return node;
+
         }
     }
 
