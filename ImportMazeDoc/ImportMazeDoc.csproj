@@ -45,9 +45,7 @@
   <ItemGroup>
     <Compile Include="Coordinate.cs" />
     <Compile Include="ICoordinate.cs" />
-    <Compile Include="IMazeEdges.cs" />
     <Compile Include="IMazeNode.cs" />
-    <Compile Include="MazeEdges.cs" />
     <Compile Include="MazeNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,10 +54,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\MazeTest1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="maze.txt" />
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

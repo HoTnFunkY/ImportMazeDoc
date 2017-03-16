@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ImportMazeDoc
 {
-    class Coordinate
+    public class Coordinate : ICoordinate
     {
+        public int x { get; set; }
+        public int y { get; set; }
     }
 }
