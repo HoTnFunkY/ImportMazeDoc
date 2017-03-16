@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Resources;
 
 namespace ImportMazeDoc
 {
@@ -12,9 +8,6 @@ namespace ImportMazeDoc
     {
         static void Main(string[] args)
         {
-
-
-
             Console.WriteLine();
             Console.WriteLine("Output of new 2D array Maze!");
             Console.WriteLine();
@@ -81,7 +74,7 @@ namespace ImportMazeDoc
                 IMazeNode next = nodes.Peek();
                 IMazeNode neighbour = UnvisitedNeigbours(next, mazeArr, width, height, nodes.Count);
 
-                if (neighbour != null && neighbour.Visited == false)
+                if (neighbour != null)
                 {
                     if (IsExit(neighbour, width, height, nodes.Count))
                     {
@@ -102,7 +95,7 @@ namespace ImportMazeDoc
 
             }
 
-            PrintSolution(width, height, mazeArr);
+            PrintSolution(width, height, mazeArr);            
 
         }
 
@@ -204,7 +197,7 @@ namespace ImportMazeDoc
                 }
             }
 
-            return node;
+            return null;
         }
     }
 
