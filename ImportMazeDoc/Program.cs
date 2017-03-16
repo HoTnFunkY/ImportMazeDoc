@@ -34,16 +34,14 @@ namespace ImportMazeDoc
                 }
             }
             //*******************************************************************************************
-            ICoordinate startCoordinate = null;
-            ICoordinate endCoordinate = null;
+            Coordinate startCoordinate = null;
+            Coordinate endCoordinate = null;
             //search for entry of maze
             for (int i = 0; i < height; i++)
             {
                 if (mazeArr[i, 0].ToString().Equals("B"))
                 {
-                    startCoordinate = new Coordinate();
-                    startCoordinate.x = 0;
-                    startCoordinate.y = i;
+                    startCoordinate = new Coordinate(0 , i);                   
                 }
             }
 
@@ -54,9 +52,7 @@ namespace ImportMazeDoc
             {
                 if (mazeArr[i, width - 1].ToString().Equals("E"))
                 {
-                    endCoordinate = new Coordinate();
-                    endCoordinate.x = width - 1;
-                    endCoordinate.y = i;
+                    endCoordinate = new Coordinate(width - 1, i);                   
                 }
             }
 
@@ -88,14 +84,14 @@ namespace ImportMazeDoc
                 }
                 else
                 {
-                    ICoordinate coord = nodes.Peek().Coordinate;
+                    Coordinate coord = nodes.Peek().Coordinate;
                     mazeArr[coord.y, coord.x] = ".";
                     nodes.Pop();
                 }
 
             }
 
-            PrintSolution(width, height, mazeArr);            
+            PrintSolution(width, height, mazeArr);
 
         }
 
@@ -155,47 +151,25 @@ namespace ImportMazeDoc
         public static IMazeNode UnvisitedNeigbours(IMazeNode node, string[,] mazeArr,
                                     int width, int height, int count)
         {
+            Coordinate above = new Coordinate(node.Coordinate.x, node.Coordinate.y - 1);
+            Coordinate below = new Coordinate(node.Coordinate.x, node.Coordinate.y + 1);
+            Coordinate left = new Coordinate(node.Coordinate.x - 1, node.Coordinate.y);
+            Coordinate right = new Coordinate(node.Coordinate.x + 1, node.Coordinate.y);
 
-            var above = node.Coordinate.y - 1;
-            var below = node.Coordinate.y + 1;
-            var left = node.Coordinate.x - 1;
-            var right = node.Coordinate.x + 1;
+            Coordinate[] neighbours = { above, below, left, right };
 
-            if (left != -1)
+            for (int i = 0; i < neighbours.Length; i++)
             {
-                if (mazeArr[node.Coordinate.y, left].ToString() == " " ||
-                    mazeArr[node.Coordinate.y, left].ToString() == "E")
+                if (neighbours[i].x != -1 && neighbours[i].y != -1 &&
+                    neighbours[i].x != width && neighbours[i].y != height)
                 {
-                    return new MazeNode(left, node.Coordinate.y);
+                    if (mazeArr[neighbours[i].y, neighbours[i].x].Equals(" ") ||
+                               mazeArr[neighbours[i].y, neighbours[i].x].Equals("E"))
+                    {
+                        return new MazeNode(neighbours[i].x, neighbours[i].y);
+                    } 
                 }
-            }
-
-            if (above != -1)
-            {
-                if (mazeArr[above, node.Coordinate.x].ToString() == " " ||
-                    mazeArr[above, node.Coordinate.x].ToString() == "E")
-                {
-                    return new MazeNode(node.Coordinate.x, above);
-                }
-            }
-
-            if (right != width)
-            {
-                if (mazeArr[node.Coordinate.y, right].ToString() == " " ||
-                    mazeArr[node.Coordinate.y, right].ToString() == "E")
-                {
-                    return new MazeNode(right, node.Coordinate.y);
-                }
-            }
-
-            if (below != height)
-            {
-                if (mazeArr[below, node.Coordinate.x].ToString() == " " ||
-                   mazeArr[below, node.Coordinate.x].ToString() == "E")
-                {
-                    return new MazeNode(node.Coordinate.x, below);
-                }
-            }
+            }          
 
             return null;
         }

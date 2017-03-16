@@ -8,7 +8,7 @@ namespace ImportMazeDoc
 {
     public class MazeNode : IMazeNode
     {
-        public ICoordinate Coordinate { get; private set; }
+        public Coordinate Coordinate { get; private set; }
 
        public bool Visited { get; set; }
        /// <summary>
@@ -18,9 +18,7 @@ namespace ImportMazeDoc
        /// <param name="y">y Coordinate</param>
         public MazeNode(int x, int y)
         {
-            Coordinate = new Coordinate();
-            Coordinate.x = x;
-            Coordinate.y = y;                
+            Coordinate = new Coordinate(x, y);                       
         }
 
     }

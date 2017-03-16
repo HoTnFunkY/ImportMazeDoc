@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinate.cs" />
-    <Compile Include="ICoordinate.cs" />
     <Compile Include="IMazeNode.cs" />
     <Compile Include="MazeNode.cs" />
     <Compile Include="Program.cs" />

@@ -8,7 +8,7 @@ namespace ImportMazeDoc
 {
     public interface IMazeNode
     {
-        ICoordinate Coordinate { get; }
+        Coordinate Coordinate { get; }
         bool Visited { get; set; }
               
     }
