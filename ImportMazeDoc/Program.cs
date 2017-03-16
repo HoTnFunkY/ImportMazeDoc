@@ -168,7 +168,7 @@ namespace ImportMazeDoc
             var left = node.Coordinate.x - 1;
             var right = node.Coordinate.x + 1;
 
-            if (left != -1 && left != width)
+            if (left != -1)
             {
                 if (mazeArr[node.Coordinate.y, left].ToString() == " " ||
                     mazeArr[node.Coordinate.y, left].ToString() == "E")
@@ -177,7 +177,7 @@ namespace ImportMazeDoc
                 }
             }
 
-            if (above != -1 && above != height)
+            if (above != -1)
             {
                 if (mazeArr[above, node.Coordinate.x].ToString() == " " ||
                     mazeArr[above, node.Coordinate.x].ToString() == "E")
@@ -186,7 +186,7 @@ namespace ImportMazeDoc
                 }
             }
 
-            if (right != -1 && right != width)
+            if (right != width)
             {
                 if (mazeArr[node.Coordinate.y, right].ToString() == " " ||
                     mazeArr[node.Coordinate.y, right].ToString() == "E")
@@ -195,7 +195,7 @@ namespace ImportMazeDoc
                 }
             }
 
-            if (below != -1 && below != height)
+            if (below != height)
             {
                 if (mazeArr[below, node.Coordinate.x].ToString() == " " ||
                    mazeArr[below, node.Coordinate.x].ToString() == "E")
