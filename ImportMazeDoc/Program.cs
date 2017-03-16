@@ -156,7 +156,7 @@ namespace ImportMazeDoc
             Coordinate left = new Coordinate(node.Coordinate.x - 1, node.Coordinate.y);
             Coordinate right = new Coordinate(node.Coordinate.x + 1, node.Coordinate.y);
 
-            Coordinate[] neighbours = { above, below, left, right };
+            Coordinate[] neighbours = { left, above, right, below };
 
             for (int i = 0; i < neighbours.Length; i++)
             {
