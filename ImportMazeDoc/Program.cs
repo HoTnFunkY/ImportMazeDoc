@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Resources;
 
 namespace ImportMazeDoc
 {
@@ -12,9 +8,6 @@ namespace ImportMazeDoc
     {
         static void Main(string[] args)
         {
-
-
-
             Console.WriteLine();
             Console.WriteLine("Output of new 2D array Maze!");
             Console.WriteLine();
@@ -81,7 +74,7 @@ namespace ImportMazeDoc
                 IMazeNode next = nodes.Peek();
                 IMazeNode neighbour = UnvisitedNeigbours(next, mazeArr, width, height, nodes.Count);
 
-                if (neighbour != null && neighbour.Visited == false)
+                if (neighbour != null)
                 {
                     if (IsExit(neighbour, width, height, nodes.Count))
                     {
@@ -102,7 +95,7 @@ namespace ImportMazeDoc
 
             }
 
-            PrintSolution(width, height, mazeArr);
+            PrintSolution(width, height, mazeArr);            
 
         }
 
@@ -168,7 +161,7 @@ namespace ImportMazeDoc
             var left = node.Coordinate.x - 1;
             var right = node.Coordinate.x + 1;
 
-            if (left != -1 && left != width)
+            if (left != -1)
             {
                 if (mazeArr[node.Coordinate.y, left].ToString() == " " ||
                     mazeArr[node.Coordinate.y, left].ToString() == "E")
@@ -177,7 +170,7 @@ namespace ImportMazeDoc
                 }
             }
 
-            if (above != -1 && above != height)
+            if (above != -1)
             {
                 if (mazeArr[above, node.Coordinate.x].ToString() == " " ||
                     mazeArr[above, node.Coordinate.x].ToString() == "E")
@@ -186,7 +179,7 @@ namespace ImportMazeDoc
                 }
             }
 
-            if (right != -1 && right != width)
+            if (right != width)
             {
                 if (mazeArr[node.Coordinate.y, right].ToString() == " " ||
                     mazeArr[node.Coordinate.y, right].ToString() == "E")
@@ -195,7 +188,7 @@ namespace ImportMazeDoc
                 }
             }
 
-            if (below != -1 && below != height)
+            if (below != height)
             {
                 if (mazeArr[below, node.Coordinate.x].ToString() == " " ||
                    mazeArr[below, node.Coordinate.x].ToString() == "E")
@@ -204,7 +197,7 @@ namespace ImportMazeDoc
                 }
             }
 
-            return node;
+            return null;
         }
     }
 
